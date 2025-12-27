@@ -1,0 +1,19 @@
+<div class="card mb-3 shadow-sm border-0 kanban-card border-start border-4 {% if req.request_type == 'Corrective' %}border-danger{% else %}border-success{% endif %}" 
+     data-id="{{ req.id }}">
+    
+    <div class="card-body p-3">
+        <div class="d-flex justify-content-between mb-2">
+            <span class="badge {% if req.request_type == 'Corrective' %}bg-danger bg-opacity-10 text-danger{% else %}bg-success bg-opacity-10 text-success{% endif %}">
+                {{ req.request_type }}
+            </span>
+            <small class="text-muted" style="font-size: 0.7rem;">{{ req.scheduled_date }}</small>
+        </div>
+        
+        <h6 class="fw-bold mb-1 text-dark">{{ req.subject }}</h6>
+        <p class="text-muted small mb-2"><i class="fa-solid fa-server me-1"></i> {{ req.equipment_name }}</p>
+        
+        <div class="d-flex justify-content-end">
+            <a href="/requests/{{ req.id }}" class="btn btn-xs btn-light text-muted" style="font-size: 0.8rem;">Edit</a>
+        </div>
+    </div>
+</div>

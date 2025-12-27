@@ -1,24 +1,19 @@
-# MOCK DATABASE
-TEAMS_DB = [
-    {'id': '1', 'name': 'Mechanical Team', 'description': 'Fixes heavy machinery and motors.'},
-    {'id': '2', 'name': 'IT Support', 'description': 'Handles computers, screens, and software.'},
-    {'id': '3', 'name': 'Facility Maint.', 'description': 'General building repairs and lighting.'}
-]
+from models.db import get_db_connection
 
 def get_all_teams():
-    return TEAMS_DB
+    conn = get_db_connection()
+    teams = conn.execute('SELECT * FROM teams').fetchall()
+    conn.close()
+    return [dict(t) for t in teams]
 
 def get_team_by_id(team_id):
-    for team in TEAMS_DB:
-        if team['id'] == str(team_id):
-            return team
-    return {'id': '0', 'name': 'Unknown Team', 'description': ''}
+    conn = get_db_connection()
+    team = conn.execute('SELECT * FROM teams WHERE id = ?', (team_id,)).fetchone()
+    conn.close()
+    return dict(team) if team else {'id': 0, 'name': 'Unknown', 'description': ''}
 
 def add_team(name, description):
-    new_id = str(len(TEAMS_DB) + 1)
-    new_team = {
-        'id': new_id,
-        'name': name,
-        'description': description
-    }
-    TEAMS_DB.append(new_team)
+    conn = get_db_connection()
+    conn.execute('INSERT INTO teams (name, description) VALUES (?, ?)', (name, description))
+    conn.commit()
+    conn.close()

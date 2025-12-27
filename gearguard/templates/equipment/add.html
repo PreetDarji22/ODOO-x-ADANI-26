@@ -1,26 +1,81 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <h2>Add Equipment</h2>
-    <form method="POST">
-        <label>Name:</label>
-        <input type="text" name="name" required><br>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
         
-        <label>Serial Number:</label>
-        <input type="text" name="serial_number" required><br>
-        
-        <label>Department/Owner:</label>
-        <input type="text" name="department"><br>
-        
-        <label>Location:</label>
-        <input type="text" name="location"><br>
-        
-        <label>Assigned Team:</label>
-        <select name="team_id">
-            {% for team in teams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
-            {% endfor %}
-        </select><br><br>
-        
-        <button type="submit">Save Equipment</button>
-    </form>
+        <div class="d-flex align-items-center mb-4">
+            <a href="/equipment" class="btn btn-light rounded-circle me-3 shadow-sm"><i class="fa-solid fa-arrow-left"></i></a>
+            <div>
+                <h3 class="fw-bold mb-0">Register New Asset</h3>
+                <p class="text-muted small mb-0">Enter the details of the new machinery.</p>
+            </div>
+        </div>
+
+        <div class="card shadow border-0">
+            <div class="card-body p-5">
+                <form method="POST">
+                    
+                    <h6 class="text-uppercase text-primary fw-bold mb-4 small border-bottom pb-2">Machine Identification</h6>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Machine Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-tag"></i></span>
+                                <input type="text" name="name" class="form-control" placeholder="e.g. Lathe Machine X1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Serial Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-barcode"></i></span>
+                                <input type="text" name="serial_number" class="form-control" placeholder="e.g. SN-90210" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-uppercase text-primary fw-bold mb-4 small border-bottom pb-2 mt-5">Location & Responsibility</h6>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Department</label>
+                            <select name="department" class="form-select">
+                                <option>Production</option>
+                                <option>Packaging</option>
+                                <option>Warehouse</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small">Physical Location</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-location-dot"></i></span>
+                                <input type="text" name="location" class="form-control" placeholder="e.g. Floor 2, Zone B" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small">Assign Maintenance Team</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="fa-solid fa-users-gear"></i></span>
+                                <select name="team_id" class="form-select">
+                                    {% for team in teams %}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-text">This team will be notified for repairs.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            <i class="fa-solid fa-save me-2"></i> Save Asset
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

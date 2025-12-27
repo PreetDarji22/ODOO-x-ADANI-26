@@ -3,13 +3,28 @@ from models.equipment_model import get_all_equipment, add_equipment
 from models.team_model import get_all_teams
 from models.equipment_model import get_all_equipment
 from models.request_model import get_all_requests
+from models.team_model import get_all_teams
 
 equipment_bp = Blueprint('equipment', __name__, url_prefix='/equipment')
 
 @equipment_bp.route('/')
 def list_equipment():
+    # Get all equipment first
     equipment_list = get_all_equipment()
+    
+    # SEARCH LOGIC: Check if user typed in the search box
+    search_query = request.args.get('q')
+    
+    if search_query:
+        search_query = search_query.lower()
+        # Filter list: Keep item if Name OR Serial Number contains the search text
+        equipment_list = [
+            e for e in equipment_list 
+            if search_query in e['name'].lower() or search_query in e['serial_number'].lower()
+        ]
+
     return render_template('equipment/list.html', equipment=equipment_list)
+    
 
 @equipment_bp.route('/add', methods=['GET', 'POST'])
 def add_new_equipment():
@@ -17,14 +32,14 @@ def add_new_equipment():
         name = request.form['name']
         serial = request.form['serial_number']
         dept = request.form['department']
-        location = request.form['location']
+        loc = request.form['location']
         team_id = request.form['team_id']
-        
-        add_equipment(name, serial, dept, location, team_id)
+        add_equipment(name, serial, dept, loc, team_id)
         return redirect(url_for('equipment.list_equipment'))
-        
-    teams = get_all_teams()
-    return render_template('equipment/add.html', teams=teams)
+    
+    # PASS TEAMS TO THE TEMPLATE
+    all_teams = get_all_teams()
+    return render_template('equipment/add.html', teams=all_teams)
 
 @equipment_bp.route('/<eq_id>')
 def view_equipment(eq_id):

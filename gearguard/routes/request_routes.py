@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from models.request_model import get_all_requests, create_request, get_request_by_id, update_request_stage
-from models.equipment_model import get_all_equipment
+from models.equipment_model import get_all_equipment, set_equipment_scrap
 
 request_bp = Blueprint('requests', __name__, url_prefix='/requests')
 
@@ -22,13 +22,15 @@ def add_new_request():
         rtype = request.form['request_type']
         eq_id = request.form['equipment_id']
         date = request.form['scheduled_date']
+        
         create_request(subject, rtype, eq_id, date)
+        
         return redirect(url_for('requests.list_requests'))
 
+    # We need the list of equipment so the user can choose which machine is broken
     equipment_list = get_all_equipment()
     return render_template('requests/add.html', equipment=equipment_list)
 
-# NEW: Route to View and Edit a specific request
 @request_bp.route('/<req_id>', methods=['GET', 'POST'])
 def view_request(req_id):
     req = get_request_by_id(req_id)
@@ -37,15 +39,21 @@ def view_request(req_id):
         return "Request not found", 404
 
     if request.method == 'POST':
-        # Update logic [cite: 44-45]
+        # Update logic
         new_stage = request.form['stage']
         duration = request.form['duration']
         note = request.form['resolution_note']
         
         update_request_stage(req_id, new_stage, duration, note)
+        
+        # AUTOMATION: If stage is 'Scrap', kill the machine
+        if new_stage == 'Scrap':
+            set_equipment_scrap(req.get('equipment_id'))
+
         return redirect(url_for('requests.list_requests'))
 
     return render_template('requests/view.html', req=req)
+
 @request_bp.route('/calendar')
 def calendar_view():
     reqs = get_all_requests()
@@ -66,3 +74,23 @@ def calendar_view():
         calendar_events.append(event)
 
     return render_template('requests/calendar.html', events=calendar_events)
+
+# --- NEW API FOR DRAG & DROP ---
+@request_bp.route('/api/update_stage', methods=['POST'])
+def api_update_stage():
+    data = request.get_json()
+    req_id = data.get('req_id')
+    new_stage = data.get('new_stage')
+    
+    req = get_request_by_id(req_id)
+    if req:
+        # Keep old duration/note, just change stage
+        update_request_stage(req_id, new_stage, req.get('duration', 0), req.get('resolution_note', ''))
+        
+        # Trigger Scrap Logic if dragged to Scrap
+        if new_stage == 'Scrap':
+            set_equipment_scrap(req.get('equipment_id'))
+            
+        return jsonify({'status': 'success'})
+    
+    return jsonify({'status': 'error'}), 404
