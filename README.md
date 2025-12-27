@@ -39,12 +39,3 @@
 | **Templating** | Jinja2 |
 
 ---
-
-## 💻 Installation & Setup
-
-Follow these steps to run GearGuard locally on your machine.
-
-### 1. Prerequisites
-Ensure you have **Python 3.x** installed.
-```bash
-python --version
