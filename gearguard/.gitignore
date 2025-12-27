@@ -1,4 +1,19 @@
-venv/
+# --- Python & Cache ---
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# --- Database (CRITICAL) ---
+*.db
+*.sqlite3
+gearguard.db
+
+# --- Virtual Environments ---
+env/
+venv/
+.venv/
+
+# --- IDE Settings (VS Code, Mac, etc) ---
+.vscode/
+.idea/
 .DS_Store
