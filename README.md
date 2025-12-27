@@ -1,36 +1,50 @@
-# 🛡️ GearGuard: The Ultimate Maintenance Tracker
+# ⚙️ GearGuard - Industrial Asset Management System
 
-GearGuard is a modern **Maintenance Management System (CMMS)** designed to bridge the gap between industrial assets, maintenance teams, and repair requests. It replaces chaotic paper trails with a structured digital workflow.
+**GearGuard** is a comprehensive web-based facility management solution designed to streamline industrial operations. It allows facility managers to track machinery assets, organize maintenance teams, and manage repair requests through an intuitive dashboard.
 
-## 🚀 Project Overview
+> **Status:** ✅ Active | **Version:** 1.0.0
 
-[cite_start]The objective of this project is to allow companies to track assets (machines, vehicles) and manage the lifecycle of maintenance requests[cite: 4].
+## 🚀 Key Features
 
-* **Problem:** Breakdowns are often unreported, and preventive maintenance schedules are missed.
-* [cite_start]**Solution:** A centralized dashboard that connects **Equipment** (what is broken) with **Teams** (who fixes it) and **Requests** (the work to be done)[cite: 5].
+### 🔹 Dashboard & Analytics
+* **Real-time Overview:** View total assets, active breakdowns, and team efficiency at a glance.
+* **Visual Data:** Interactive charts powered by Chart.js to track maintenance trends.
+* **Actionable Insights:** "Attention Needed" counters highlight urgent repair requests.
 
-## ✨ Key Features
+### 🔹 Asset Management
+* **Digital Inventory:** Register machinery with serial numbers, locations, and departments.
+* **Smart Search:** Filter assets by name or ID instantly.
+* **Status Tracking:** Monitor if machines are "Operational" or "Scrapped".
 
-### 1. 🏭 Asset Management (The "Brain")
-* Centralized database of all company machinery.
-* [cite_start]**Smart Buttons:** View live maintenance counts directly on the equipment page[cite: 71].
-* [cite_start]**Scrap Logic:** Automatically marks equipment as "Scrapped" (Red Status) if a repair request fails[cite: 74].
+### 🔹 Maintenance Workflow
+* **Request Portal:** Log breakdowns with detailed descriptions and priority levels.
+* **Kanban Tracking:** Move requests through stages: `New` → `In Progress` → `Repaired`.
+* **Team Assignment:** Automatically link assets to specific technical teams (Mechanical, Electrical, IT).
 
-### 2. 🔧 Corrective Maintenance (Flow 1)
-* Report breakdowns instantly.
-* [cite_start]**Kanban Board:** A visual drag-and-drop style workflow (`New` -> `In Progress` -> `Repaired`)[cite: 53].
-* Technicians can log hours spent and resolution notes.
+### 🔹 User Security
+* **Secure Authentication:** User Signup & Login system.
+* **Data Protection:** Passwords are hashed using PBKDF2 (Werkzeug security).
+* **Session Management:** Protected routes ensure only logged-in managers can access data.
 
-### 3. 📅 Preventive Maintenance (Flow 2)
-* Schedule routine checkups to prevent failure.
-* [cite_start]**Calendar View:** A visual monthly schedule powered by FullCalendar.js so no job is missed[cite: 61].
-
-### 4. 👥 Team Management
-* [cite_start]Organize technicians into specialized teams (e.g., Mechanical, Electrical, IT)[cite: 20].
+---
 
 ## 🛠️ Tech Stack
 
-* **Backend:** Python (Flask)
-* **Frontend:** HTML5, CSS3, Bootstrap 5 (Responsive Design)
-* **Dynamic Features:** FullCalendar.js, FontAwesome Icons
-* **Database:** *Currently using In-Memory Data Structures (Python Lists) for rapid prototyping.*
+| Component | Technology |
+| :--- | :--- |
+| **Backend** | Python 3, Flask (Microframework) |
+| **Database** | SQLite 3 (Relational DB) |
+| **Frontend** | HTML5, CSS3, Bootstrap 5 |
+| **Icons & Charts** | FontAwesome 6, Chart.js |
+| **Templating** | Jinja2 |
+
+---
+
+## 💻 Installation & Setup
+
+Follow these steps to run GearGuard locally on your machine.
+
+### 1. Prerequisites
+Ensure you have **Python 3.x** installed.
+```bash
+python --version
