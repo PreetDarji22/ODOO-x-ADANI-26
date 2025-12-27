@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Maintenance Board</h3>
+    <a href="/requests/add" class="btn btn-primary"><i class="fa-solid fa-wrench"></i> New Request</a>
+</div>
+
+<div class="row g-4">
+    {% for req in requests %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 {% if req.request_type == 'Corrective' %}border-danger{% else %}border-success{% endif %}" style="border-top-width: 4px;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    {% if req.request_type == 'Corrective' %}
+                        <span class="badge bg-danger bg-opacity-10 text-danger">Corrective</span>
+                    {% else %}
+                        <span class="badge bg-success bg-opacity-10 text-success">Preventive</span>
+                    {% endif %}
+                    <small class="text-muted"><i class="fa-regular fa-calendar me-1"></i> {{ req.scheduled_date }}</small>
+                </div>
+                
+                <h5 class="card-title fw-bold mb-1">{{ req.subject }}</h5>
+                <p class="text-muted small mb-3"><i class="fa-solid fa-server me-1"></i> {{ req.equipment_name }}</p>
+                
+                <div class="border-top pt-3 d-flex justify-content-between align-items-center">
+                    <span class="badge bg-secondary text-white">{{ req.stage }}</span>
+                    <a href="/requests/{{ req.id }}" class="btn btn-sm btn-outline-primary">Manage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5">
+        <div class="text-muted display-1 mb-3"><i class="fa-solid fa-clipboard-check"></i></div>
+        <h4>All Caught Up!</h4>
+        <p class="text-muted">No active maintenance requests found.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

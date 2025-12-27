@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Report a Breakdown</h3>
+            <p class="text-muted">Submit a new maintenance ticket.</p>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-uppercase">Subject</label>
+                        <input type="text" name="subject" class="form-control form-control-lg" placeholder="e.g. Oil Leak on Press #4" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small text-uppercase">Type</label>
+                            <select name="request_type" class="form-select">
+                                <option value="Corrective">🔴 Corrective (Breakdown)</option>
+                                <option value="Preventive">🟢 Preventive (Routine)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold small text-uppercase">Date</label>
+                            <input type="date" name="scheduled_date" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">Affected Machine</label>
+                        <select name="equipment_id" class="form-select">
+                            {% for item in equipment %}
+                                <option value="{{ item.id }}">{{ item.name }} ({{ item.serial_number }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Submit Request</button>
+                        <a href="/requests" class="btn btn-light text-muted">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}  

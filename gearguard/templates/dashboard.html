@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold text-dark">👋 Welcome back</h2>
+        <p class="text-muted">Here is your facility overview for today.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="/requests/add" class="btn btn-primary shadow-sm"><i class="fa-solid fa-plus"></i> Log Breakdown</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card p-4 h-100 border-start border-4 border-danger">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="text-uppercase text-muted fw-bold small">Attention Needed</h6>
+                    <h1 class="display-4 fw-bold text-dark mb-0">{{ active_requests }}</h1>
+                </div>
+                <div class="bg-danger bg-opacity-10 p-3 rounded-circle text-danger">
+                    <i class="fa-solid fa-triangle-exclamation fa-lg"></i>
+                </div>
+            </div>
+            <p class="text-muted mt-2">Active maintenance requests</p>
+            <a href="/requests" class="text-decoration-none fw-bold text-danger stretched-link">Check Kanban &rarr;</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="text-uppercase text-muted fw-bold small">Total Assets</h6>
+                    <h1 class="display-4 fw-bold text-dark mb-0">{{ total_equipment }}</h1>
+                </div>
+                <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary">
+                    <i class="fa-solid fa-server fa-lg"></i>
+                </div>
+            </div>
+            <p class="text-muted mt-2">Machines tracked in system</p>
+            <a href="/equipment" class="text-decoration-none fw-bold text-primary stretched-link">View Inventory &rarr;</a>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-4 h-100 bg-white">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 class="text-uppercase text-muted fw-bold small">Total Jobs</h6>
+                    <h1 class="display-4 fw-bold text-dark mb-0">{{ total_requests }}</h1>
+                </div>
+                <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success">
+                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                </div>
+            </div>
+            <p class="text-muted mt-2">Lifetime jobs completed</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

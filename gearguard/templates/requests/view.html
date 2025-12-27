@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="/requests" class="text-decoration-none text-muted small">&larr; Back to Board</a>
+                <h3 class="fw-bold mt-1">{{ req.subject }}</h3>
+            </div>
+            <span class="badge bg-secondary fs-6">{{ req.request_type }}</span>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <small class="text-muted text-uppercase fw-bold">Equipment</small>
+                        <p class="fs-5 fw-semibold text-primary"><i class="fa-solid fa-server"></i> {{ req.equipment_name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted text-uppercase fw-bold">Scheduled Date</small>
+                        <p class="fs-5"><i class="fa-regular fa-calendar"></i> {{ req.scheduled_date }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Technician Worksheet
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Current Stage</label>
+                        <select name="stage" class="form-select form-select-lg">
+                            <option value="New" {% if req.stage == 'New' %}selected{% endif %}>⚪ New</option>
+                            <option value="In Progress" {% if req.stage == 'In Progress' %}selected{% endif %}>🔵 In Progress</option>
+                            <option value="Repaired" {% if req.stage == 'Repaired' %}selected{% endif %}>🟢 Repaired</option>
+                            <option value="Scrap" {% if req.stage == 'Scrap' %}selected{% endif %}>⚫ Scrap</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Duration (Hours)</label>
+                        <input type="number" step="0.5" name="duration" class="form-control" value="{{ req.duration }}" placeholder="e.g. 2.5">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Resolution Notes</label>
+                        <textarea name="resolution_note" class="form-control" rows="3" placeholder="Describe what you fixed...">{{ req.resolution_note }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Update Request</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

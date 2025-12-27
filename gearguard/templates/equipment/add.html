@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Add Equipment</h2>
+    <form method="POST">
+        <label>Name:</label>
+        <input type="text" name="name" required><br>
+        
+        <label>Serial Number:</label>
+        <input type="text" name="serial_number" required><br>
+        
+        <label>Department/Owner:</label>
+        <input type="text" name="department"><br>
+        
+        <label>Location:</label>
+        <input type="text" name="location"><br>
+        
+        <label>Assigned Team:</label>
+        <select name="team_id">
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <button type="submit">Save Equipment</button>
+    </form>
+{% endblock %}

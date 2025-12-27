@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Maintenance Schedule</h3>
+    <a href="/requests/add" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Schedule Job</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <div class="mb-3 d-flex gap-3">
+            <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger border border-danger">
+                <i class="fa-solid fa-circle small me-1"></i> Corrective (Breakdown)
+            </span>
+            <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success">
+                <i class="fa-solid fa-circle small me-1"></i> Preventive (Routine)
+            </span>
+        </div>
+
+        <div id='calendar'></div>
+    </div>
+</div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            },
+            height: 650,
+            themeSystem: 'bootstrap5',
+            events: JSON.parse('{{ events | tojson | safe }}') // Inject Python data into JS
+        });
+        calendar.render();
+    });
+</script>
+
+<style>
+    /* Custom style to make calendar link text white */
+    .fc-event-title { font-weight: 600; }
+    .fc-event { cursor: pointer; text-decoration: none; }
+</style>
+{% endblock %}
